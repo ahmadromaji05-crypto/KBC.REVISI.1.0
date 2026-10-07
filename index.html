@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Penyusun Perangkat Pembelajaran KBC & STIFIn</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; color: #0f172a; padding-bottom: 50px; }
+    
+    header { background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%); color: white; padding: 18px 30px; border-bottom: 4px solid #10b981; }
+    header h1 { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    header p { font-size: 0.84rem; opacity: 0.9; }
+
+    .main-container { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px 30px; max-width: 1720px; margin: 0 auto; }
+    .col-form { flex: 1 1 450px; max-width: 520px; }
+    .col-doc { flex: 2 1 720px; min-width: 320px; }
+
+    .panel { background: white; border-radius: 8px; border: 1px solid #cbd5e1; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .panel h2 { font-size: 0.98rem; font-weight: 700; color: #064e3b; margin-bottom: 12px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+
+    .form-group { margin-bottom: 11px; }
+    .form-row { display: flex; gap: 10px; margin-bottom: 11px; }
+    .form-row .form-group { flex: 1; margin-bottom: 0; }
+    
+    label { display: block; font-size: 0.78rem; font-weight: 600; color: #334155; margin-bottom: 4px; }
+    input[type="text"], input[type="password"], select, textarea { width: 100%; padding: 7px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.85rem; color: #0f172a; outline: none; background: #fff; }
+    input:focus, select:focus, textarea:focus { border-color: #059669; }
+    textarea { resize: vertical; }
+
+    .badge-kbc { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 7px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
+    .edit-box-semester { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; margin-bottom: 11px; }
+    .edit-box-semester label { color: #0369a1; font-weight: 700; display: flex; justify-content: space-between; }
+
+    .btn-group-mode { display: flex; width: 100%; margin-bottom: 12px; gap: 4px; }
+    .btn-group-mode button { flex: 1; padding: 8px; font-size: 0.82rem; font-weight: 600; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; border-radius: 6px; }
+    .btn-group-mode button.active { background: #064e3b; color: white; border-color: #064e3b; }
+
+    .ai-config-panel { background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 12px; font-size: 0.84rem; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+    .btn-primary { background: #059669; color: white; width: 100%; padding: 11px; font-size: 0.95rem; border: none; }
+    .btn-primary:hover { background: #047857; }
+    .btn-outline { background: white; border: 1px solid #cbd5e1; color: #334155; }
+    .btn-outline:hover { background: #f8fafc; }
+    .btn-sm { padding: 4px 8px; font-size: 0.76rem; }
+
+    /* Stepper & Tabs */
+    .stepper { display: flex; background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 10px; margin-bottom: 12px; gap: 4px; overflow-x: auto; }
+    .step-item { flex: 1; min-width: 70px; text-align: center; font-size: 0.74rem; font-weight: 600; color: #64748b; padding: 5px 3px; border-radius: 4px; cursor: pointer; }
+    .step-item.active { background: #ecfdf5; color: #047857; border: 1px solid #10b981; }
+
+    .tab-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; background: white; padding: 8px 12px; border-radius: 8px; border: 1px solid #cbd5e1; align-items: center; justify-content: space-between; }
+    .tab-buttons { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tab-btn { background: #f8fafc; border: 1px solid #cbd5e1; padding: 5px 9px; font-size: 0.78rem; font-weight: 600; border-radius: 5px; cursor: pointer; color: #475569; }
+    .tab-btn.active { background: #064e3b; color: white; border-color: #064e3b; }
+
+    /* Accordion Prompt */
+    .accordion-header { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 10px; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: flex; justify-content: space-between; margin-bottom: 3px; }
+    .accordion-content { display: none; padding: 8px; background: #fff; border: 1px solid #cbd5e1; border-top: none; border-radius: 0 0 6px 6px; margin-bottom: 6px; }
+    .accordion-content.show { display: block; }
+
+    /* Lembar Dokumen A4 */
+    .doc-paper { background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 40px; min-height: 850px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .doc-paper.editing { outline: 2px dashed #059669; background: #fffffb; }
+    
+    .doc-title { text-align: center; font-size: 1.12rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; color: #064e3b; }
+    .doc-subtitle { text-align: center; font-size: 0.92rem; font-weight: 600; margin-bottom: 18px; color: #334155; }
+    
+    .doc-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.86rem; }
+    .doc-table th, .doc-table td { border: 1px solid #334155; padding: 7px 9px; text-align: left; vertical-align: top; }
+    .doc-table th { background-color: #f1f5f9; text-align: center; font-weight: 700; }
+    
+    .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 0.86rem; }
+    .meta-table td { padding: 4px 6px; vertical-align: top; }
+    
+    .section-head { font-size: 0.93rem; font-weight: 700; color: #064e3b; margin: 18px 0 8px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+    .ttd-box { width: 100%; margin-top: 35px; border-collapse: collapse; text-align: center; font-size: 0.86rem; }
+    .ttd-box td { width: 50%; vertical-align: top; }
+
+    /* Kartu STIFIn Warna Khas Resmi */
+    .stifin-card { border-left: 6px solid; padding: 12px; margin-bottom: 12px; background: #f8fafc; border-radius: 6px; font-size: 0.85rem; }
+    .stifin-sensing { border-color: #dc2626; background: #fef2f2; }
+    .stifin-thinking { border-color: #0f172a; background: #f8fafc; }
+    .stifin-intuiting { border-color: #1e3a8a; background: #eff6ff; }
+    .stifin-feeling { border-color: #059669; background: #ecfdf5; }
+    .stifin-insting { border-color: #d97706; background: #fffbeb; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      header, .col-form, .tab-bar, .stepper, .no-print { display: none !important; }
+      .main-container { padding: 0; margin: 0; display: block; }
+      .col-doc { width: 100%; max-width: 100%; }
+      .doc-paper { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="no-print">
+    <h1><span>🌿</span> Sistem Perangkat Pembelajaran KBC & STIFIn (Fase D s.d. F)</h1>
+    <p>Generator Otomatis 8 Perangkat Pembelajaran Terintegrasi: CP &rarr; ATP &rarr; TP &rarr; Prota &rarr; Promes &rarr; RPP KBC &rarr; Bahan Ajar &rarr; LKPD STIFIn</p>
+  </header>
+
+  <div class="main-container">
+    
+    <!-- Panel Formulir di Kiri -->
+    <div class="col-form no-print">
+      
+      <!-- Pilihan Mode Generator -->
+      <div class="panel">
+        <div class="btn-group-mode">
+          <button type="button" id="btnModeStandar" class="active" onclick="gantiMode('standar')">⚡ Mode Standar KBC</button>
+          <button type="button" id="btnModeGemini" onclick="gantiMode('gemini')">✨ Mode AI Gemini</button>
+        </div>
+
+        <!-- Panel Konfigurasi AI Gemini -->
+        <div id="panelGemini" class="ai-config-panel" style="display:none;">
+          <div class="form-group">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label style="color:#166534; font-weight:700;">Google Gemini API Key</label>
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" style="font-size:0.75rem; color:#059669; text-decoration:none;">Ambil Kunci Gratis &rarr;</a>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <input type="password" id="geminiApiKey" placeholder="Tempel kunci AI Studio Anda...">
+              <button type="button" class="btn btn-outline btn-sm" onclick="toggleLihatKey()">👁️</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="tesKoneksiApi()">Tes</button>
+            </div>
+            <div id="apiStatusMessage" style="font-size:0.75rem; margin-top:4px;"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Model AI</label>
+              <select id="geminiModel">
+                <option value="gemini-3.8-flash" selected>gemini-3.8-flash (Rekomendasi Cepat)</option>
+                <option value="gemini-3.8-pro">gemini-3.8-pro (Analisis Mendalam)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Kreativitas</label>
+              <select id="geminiTemp">
+                <option value="0.3">Terstruktur & Runtut</option>
+                <option value="0.7" selected>Kreatif Seimbang</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <h2>
+          <span>Identitas Madrasah & Pembelajaran</span>
+          <span class="badge-kbc">KBC 2026/2027</span>
+        </h2>
+
+        <div class="form-group">
+          <label>Satuan Pendidikan</label>
+          <input type="text" id="sekolah" value="MA Pesantren Terpadu Al Fauzan Lumajang">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Guru Pengampu</label>
+            <input type="text" id="guru" value="Moh. Joharul Yusuf, S.Pd.">
+          </div>
+          <div class="form-group">
+            <label>Kepala Madrasah</label>
+            <input type="text" id="kepsek" value="Dr. Nur Ifadah, S.H, MA">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Mata Pelajaran</label>
+            <input type="text" id="mapel" value="Pendidikan Pancasila dan Kewarganegaraan">
+          </div>
+          <div class="form-group">
+            <label>Jenjang Kelas & Fase (Kelas 7–12)</label>
+            <select id="fase" onchange="sesuaikanMateriFase()">
+              <optgroup label="Fase D (MTs / SMP)">
+                <option value="Fase D (Kelas 7)">Kelas 7 - Fase D</option>
+                <option value="Fase D (Kelas 8)">Kelas 8 - Fase D</option>
+                <option value="Fase D (Kelas 9)">Kelas 9 - Fase D</option>
+              </optgroup>
+              <optgroup label="Fase E (MA / SMA)">
+                <option value="Fase E (Kelas 10)" selected>Kelas 10 - Fase E</option>
+              </optgroup>
+              <optgroup label="Fase F (MA / SMA)">
+                <option value="Fase F (Kelas 11)">Kelas 11 - Fase F</option>
+                <option value="Fase F (Kelas 12)">Kelas 12 - Fase F</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Semester</label>
+            <select id="semester">
+              <option value="Gasal (1)" selected>Gasal (1)</option>
+              <option value="Genap (2)">Genap (2)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Alokasi Waktu</label>
+            <input type="text" id="waktu" value="2 x 45 Menit">
+          </div>
+        </div>
+
+        <!-- Materi Semester 1 (Bisa Diedit Bebas oleh Guru) -->
+        <div class="edit-box-semester">
+          <label><span>Materi Pokok Semester 1</span> <span style="font-size:0.7rem; color:#0369a1;">(Dapat Diedit Bebas)</span></label>
+          <textarea id="materiSmt1" rows="5">BAB I Pancasila
+- Perumusan Pancasila Sebagai dasar Negara
+- Kedudukan dan Fungsi Pancasila Bagi Bangsa dan Negara Indonesia
+- Nilai-Nilai Pancasila dalam Kehidupan Sehari-hari
+- Bangga sebagai Bangsa Indonesia
+
+BAB II Undang-Undang Dasar Negara Republik Indonesia Tahun 1945
+a. Perumusan dan Pengesahan UUD NRI Tahun 1945
+b. Hak dan Kewajiban Warga Negara dalam UUD NRI Tahun 1945
+c. Kemerdekaan Berpendapat sesuai Nilai-nilai Pancasila
+d. Pelanggaran Hak dan Pengingkaran Kewajiban</textarea>
+        </div>
+
+        <!-- Materi Semester 2 (Bisa Diedit Bebas oleh Guru) -->
+        <div class="edit-box-semester">
+          <label><span>Materi Pokok Semester 2</span> <span style="font-size:0.7rem; color:#0369a1;">(Dapat Diedit Bebas)</span></label>
+          <textarea id="materiSmt2" rows="5">BAB III Bhinneka Tunggal Ika
+- Keberagaman dalam Bingkai Bhinneka Tunggal Ika
+- Kerja sama dan Gotong Royong dalam Kehidupan Bermasyarakat
+
+BAB IV Negara Kesatuan Republik Indonesia
+a. Kesadaran akan Hak dan Kewajiban
+b. Peran dan Kedudukan Sebagai Warga Negara Indonesia
+c. Persamaan Kedudukan Warga Negara</textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Pilihan Panca Cinta</label>
+            <select id="pancaCinta">
+              <option value="Cinta kepada Tuhan YME, Cinta kepada Diri Sendiri dan Sesama, Cinta kepada Bangsa dan Negara" selected>Tuhan, Sesama, & Bangsa-Negara</option>
+              <option value="Cinta kepada Tuhan YME, Cinta kepada Ilmu Pengetahuan, Cinta kepada Bangsa dan Negara">Tuhan, Ilmu, & Bangsa-Negara</option>
+              <option value="Cinta Diri Sendiri & Sesama, Cinta Lingkungan, Cinta Bangsa dan Negara">Sesama, Lingkungan, & Bangsa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Dimensi Profil Lulusan</label>
+            <select id="profilLulusan">
+              <option value="Keimanan dan Ketakwaan, Kewargaan, Penalaran Kritis" selected>Iman-Takwa, Kewargaan, Kritis</option>
+              <option value="Kewargaan, Kolaborasi, Komunikasi">Kewargaan, Kolaborasi, Komunikasi</option>
+              <option value="Penalaran Kritis, Kreativitas, Kemandirian">Kritis, Kreativitas, Mandiri</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Prompt Kustom Berjenjang (Dapat Diatur oleh Guru) -->
+        <div style="margin-top:10px;">
+          <label style="font-weight:700; color:#064e3b; margin-bottom:6px;">⚙️ Kustomisasi Prompt AI Berjenjang</label>
+          
+          <div class="accordion-header" onclick="toggleAcc('p1')">
+            <span>1. Prompt CP & ATP</span><span>▾</span>
+          </div>
+          <div class="accordion-content" id="p1">
+            <textarea id="prompt_cp_atp" rows="3">Susun analisis 4 elemen CP (Pancasila, UUD 1945, Bhinneka Tunggal Ika, NKRI) dan Alur Tujuan Pembelajaran (ATP) berjenjang kelas {fase} terintegrasi Panca Cinta ({panca_cinta}) dan nilai kontekstual pesantren Al Fauzan.</textarea>
+          </div>
+
+          <div class="accordion-header" onclick="toggleAcc('p2')">
+            <span>2. Prompt RPP KBC & STIFIn</span><span>▾</span>
+          </div>
+          <div class="accordion-content" id="p2">
+            <textarea id="prompt_rpp" rows="3">Susun RPP Kurikulum Berbasis Cinta (KBC) pendekatan Deep Learning (Berkesadaran, Bermakna, Menggembirakan) durasi {waktu} dengan diferensiasi 5 mesin kecerdasan STIFIn dan lampiran lengkap 1 s.d. 6.</textarea>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <button type="button" class="btn btn-primary" id="btnProses" onclick="jalankanPenyusunan()">
+            🚀 Susun 8 Perangkat Pembelajaran
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Panel Lembar Pratinjau Dokumen di Kanan -->
+    <div class="col-doc">
+      
+      <!-- Stepper Alur -->
+      <div class="stepper no-print">
+        <div class="step-item" id="st-cp" onclick="bukaTab('cp')">1. CP</div>
+        <div class="step-item" id="st-atp" onclick="bukaTab('atp')">2. ATP</div>
+        <div class="step-item" id="st-tp" onclick="bukaTab('tp')">3. TP</div>
+        <div class="step-item" id="st-prota" onclick="bukaTab('prota')">4. Prota</div>
+        <div class="step-item" id="st-promes" onclick="bukaTab('promes')">5. Promes</div>
+        <div class="step-item active" id="st-modul" onclick="bukaTab('modul')">6. RPP KBC</div>
+        <div class="step-item" id="st-bahan" onclick="bukaTab('bahan')">7. Bahan Ajar</div>
+        <div class="step-item" id="st-lkpd" onclick="bukaTab('lkpd')">8. LKPD STIFIn</div>
+      </div>
+
+      <!-- Tab Bar Navigasi -->
+      <div class="tab-bar no-print">
+        <div class="tab-buttons" id="tabGroup">
+          <button type="button" class="tab-btn" onclick="bukaTab('cp')">CP</button>
+          <button type="button" class="tab-btn" onclick="bukaTab('atp')">ATP</button>
+          <button type="button" class="tab-btn" onclick="bukaTab('tp')">TP</button>
+          <button type="button" class="tab-btn" onclick="bukaTab('prota')">Prota</button>
+          <button type="button" class="tab-btn" onclick="bukaTab('promes')">Promes</button>
+          <button type="button" class="tab-btn active" onclick="bukaTab('modul')">📖 RPP KBC</button>
+          <button type="button" class="tab-btn" onclick="bukaTab('bahan')">📚 Bahan Ajar</button>
+          <button type="button" class="tab-btn" onclick="bukaTab('lkpd')">🎨 LKPD STIFIn</button>
+          <button type="button" class="tab-btn" onclick="bukaTab('semua')">📦 Paket Lengkap</button>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="btn btn-outline btn-sm" id="btnEdit" onclick="toggleEdit()">✏️ Edit Teks</button>
+          <button type="button" class="btn btn-sm" style="background:#059669; color:white;" onclick="eksporWord()">💾 Unduh .doc</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="window.print()">🖨️ Cetak / PDF</button>
+        </div>
+      </div>
+
+      <!-- Kertas Pratinjau Dokumen Siap Cetak -->
+      <div class="doc-paper" id="paperRender" contenteditable="false">
+        <!-- Dokumen dimuat otomatis di sini -->
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    var berkas = {};
+    var tabAktif = 'modul';
+    var sedangEdit = false;
+    var modeAktif = 'standar';
+
+    window.addEventListener('DOMContentLoaded', function() {
+      var savedKey = localStorage.getItem('gemini_api_key_kbc') || '';
+      if (savedKey) document.getElementById('geminiApiKey').value = savedKey;
+      jalankanPenyusunan();
+    });
+
+    function gantiMode(m) {
+      modeAktif = m;
+      document.getElementById('btnModeStandar').className = (m === 'standar') ? 'active' : '';
+      document.getElementById('btnModeGemini').className = (m === 'gemini') ? 'active' : '';
+      document.getElementById('panelGemini').style.display = (m === 'gemini') ? 'block' : 'none';
+    }
+
+    function toggleLihatKey() {
+      var el = document.getElementById('geminiApiKey');
+      el.type = el.type === 'password' ? 'text' : 'password';
+    }
+
+    function toggleAcc(id) {
+      var el = document.getElementById(id);
+      el.classList.toggle('show');
+    }
+
+    async function tesKoneksiApi() {
+      var key = document.getElementById('geminiApiKey').value.trim();
+      var status = document.getElementById('apiStatusMessage');
+      var model = document.getElementById('geminiModel').value;
+      if (!key) {
+        status.innerHTML = '<span style="color:#dc2626;">Kunci API belum diisi.</span>';
+        return;
+      }
+      status.innerHTML = '<span>Menguji koneksi ke Google AI...</span>';
+      try {
+        var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + key, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ contents: [{ parts: [{ text: "Tes 1 kata: Aktif." }] }] })
+        });
+        var d = await res.json();
+        if (res.ok) {
+          localStorage.setItem('gemini_api_key_kbc', key);
+          status.innerHTML = '<span style="color:#059669; font-weight:bold;">Tersambung sukses (' + model + ')!</span>';
+        } else {
+          status.innerHTML = '<span style="color:#dc2626;">Gagal: ' + (d.error?.message || 'Periksa API Key') + '</span>';
+        }
+      } catch (err) {
+        status.innerHTML = '<span style="color:#dc2626;">Galat: ' + err.message + '</span>';
+      }
+    }
+
+    function sesuaikanMateriFase() {
+      var fase = document.getElementById('fase').value;
+      var tSmt1 = document.getElementById('materiSmt1');
+      var tSmt2 = document.getElementById('materiSmt2');
+
+      if (fase.indexOf('Fase D') !== -1) {
+        tSmt1.value = "BAB I Sejarah Kelahiran Pancasila\n- Latar Sejarah & Perumusan Pancasila\n- Penetapan Pancasila sebagai Dasar Negara\n\nBAB II Norma dan UUD NRI Tahun 1945\n- Norma dalam Kehidupan Bermasyarakat\n- Arti Penting UUD NRI Tahun 1945";
+        tSmt2.value = "BAB III Kesatuan Indonesia dan Karakteristik Daerah\n- Mempertahankan Persatuan dan Kesatuan\n- Karakteristik Daerah dalam NKRI\n\nBAB IV Kebhinnekaan Indonesia\n- Menghargai Keberagaman Suku, Agama, Ras, dan Antargolongan";
+      } else if (fase.indexOf('Fase F') !== -1) {
+        tSmt1.value = "BAB I Menjiwai Pancasila\n- Keterkaitan Sila-Sila Pancasila\n- Peluang & Tantangan Penerapan Nilai Pancasila di Era Global\n\nBAB II Demokrasi Berdasarkan UUD NRI 1945\n- Periodisasi Pemberlakuan UUD di Indonesia\n- Praktik Demokrasi dalam Keterbukaan Informasi";
+        tSmt2.value = "BAB III Harmoni dalam Keberagaman\n- Manajemen Konflik & Solusi Berkeadilan\n- Inisiasi Gotong Royong dalam Kehidupan Nyata\n\nBAB IV Menjaga Keutuhan NKRI\n- Mengatasi ATHG Terhadap Kedaulatan Negara\n- Peran Lembaga Negara dalam Bidang Polhukam & Ekonomi";
+      } else {
+        tSmt1.value = "BAB I Pancasila\n- Perumusan Pancasila Sebagai dasar Negara\n- Kedudukan dan Fungsi Pancasila Bagi Bangsa dan Negara Indonesia\n- Nilai-Nilai Pancasila dalam Kehidupan Sehari-hari\n- Bangga sebagai Bangsa Indonesia\n\nBAB II Undang-Undang Dasar Negara Republik Indonesia Tahun 1945\na. Perumusan dan Pengesahan UUD NRI Tahun 1945\nb. Hak dan Kewajiban Warga Negara dalam UUD NRI Tahun 1945\nc. Kemerdekaan Berpendapat sesuai Nilai-nilai Pancasila\nd. Pelanggaran Hak dan Pengingkaran Kewajiban";
+        tSmt2.value = "BAB III Bhinneka Tunggal Ika\n- Keberagaman dalam Bingkai Bhinneka Tunggal Ika\n- Kerja sama dan Gotong Royong dalam Kehidupan Bermasyarakat\n\nBAB IV Negara Kesatuan Republik Indonesia\na. Kesadaran akan Hak dan Kewajiban\nb. Peran dan Kedudukan Sebagai Warga Negara Indonesia\nc. Persamaan Kedudukan Warga Negara";
+      }
+    }
+
+    function ambilData() {
+      function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+      return {
+        sekolah: v('sekolah'),
+        guru: v('guru'),
+        kepsek: v('kepsek'),
+        mapel: v('mapel'),
+        fase: v('fase'),
+        semester: v('semester'),
+        waktu: v('waktu'),
+        materiSmt1: v('materiSmt1'),
+        materiSmt2: v('materiSmt2'),
+        pancaCinta: v('pancaCinta'),
+        profilLulusan: v('profilLulusan')
+      };
+    }
+
+    function kop(d, judul, sub) {
+      return '<div class="doc-title">' + judul + '</div>' +
+        '<div class="doc-subtitle">' + sub + '</div>' +
+        '<table class="meta-table">' +
+          '<tr><td width="22%"><strong>Satuan Pendidikan</strong></td><td width="35%">: ' + d.sekolah + '</td><td width="18%"><strong>Fase / Kelas</strong></td><td width="25%">: ' + d.fase + '</td></tr>' +
+          '<tr><td><strong>Mata Pelajaran</strong></td><td>: ' + d.mapel + '</td><td><strong>Semester / TP</strong></td><td>: ' + d.semester + ' / 2026-2027</td></tr>' +
+          '<tr><td><strong>Alokasi Waktu</strong></td><td>: ' + d.waktu + '</td><td><strong>Pendekatan</strong></td><td>: Deep Learning & KBC Pesantren</td></tr>' +
+        '</table>';
+    }
+
+    function ttd(d) {
+      return '<table class="ttd-box">' +
+        '<tr>' +
+          '<td>Mengetahui,<br>Kepala Madrasah<br><br><br><br><strong><u>' + d.kepsek + '</u></strong></td>' +
+          '<td>Lumajang, Juli 2026<br>Guru Mata Pelajaran<br><br><br><br><strong><u>' + d.guru + '</u></strong></td>' +
+        '</tr>' +
+      '</table>';
+    }
+
+    function susunStandarLengkap(d) {
+      // 1. CP
+      berkas['cp'] = kop(d, 'ANALISIS CAPAIAN PEMBELAJARAN (CP) TERINTEGRASI KBC', 'TAHUN PELAJARAN 2026/2027') +
+        '<div class="section-head">A. 4 ELEMEN CAPAIAN PEMBELAJARAN (' + d.fase.toUpperCase() + ')</div>' +
+        '<table class="doc-table">' +
+          '<thead><tr><th width="20%">Elemen</th><th width="45%">Capaian Pembelajaran (CP)</th><th width="18%">Kompetensi (KKO)</th><th width="17%">Panca Cinta</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td><strong>Pancasila</strong></td><td>Peserta didik mampu mendeskripsikan rumusan dan keterkaitan sila-sila dalam Pancasila; menganalisis kedudukan Pancasila sebagai ideologi negara serta peluang dan tantangan penerapan nilai-nilai Pancasila dalam kehidupan global dan membiasakan perilaku yang sesuai dengan nilai-nilai Pancasila sebagai identitas nasional dalam kehidupan sehari-hari.</td><td>Mendeskripsikan (C2), Menganalisis (C4), Membiasakan (A5)</td><td>Cinta Tuhan & Cinta Bangsa</td></tr>' +
+            '<tr><td><strong>UUD NRI 1945</strong></td><td>Peserta didik mampu menganalisis periodisasi pemberlakuan UUD di Indonesia; menganalisis perubahan UUD NRI 1945; menunjukkan sikap demokratis pada era keterbukaan informasi; menganalisis kasus pelanggaran hak dan pengingkaran kewajiban warga negara serta merumuskan solusi atas permasalahan tersebut.</td><td>Menganalisis (C4), Menunjukkan (A3), Merumuskan (P4)</td><td>Kewargaan & Cinta Sesama</td></tr>' +
+            '<tr><td><strong>Bhinneka Tunggal Ika</strong></td><td>Peserta didik mampu menganalisis potensi konflik dan bersama-sama memberikan solusi yang berkeadilan terhadap permasalahan keberagaman di masyarakat; menginisiasi kegiatan bersama dengan prinsip gotong royong dalam praktik hidup sehari-hari.</td><td>Menganalisis (C4), Menginisiasi (P3)</td><td>Gotong Royong & Cinta Sesama</td></tr>' +
+            '<tr><td><strong>NKRI</strong></td><td>Peserta didik mampu mendemonstrasikan praktik demokrasi dalam kehidupan berbangsa dan bernegara; menganalisis dan merumuskan solusi terkait ATHG; menganalisis bentuk negara, bentuk pemerintahan, sistem pemerintahan; serta menganalisis peran lembaga-lembaga negara.</td><td>Mendemonstrasikan (P3), Menganalisis (C4)</td><td>Cinta Bangsa & Tanah Air</td></tr>' +
+          '</tbody>' +
+        '</table>' + ttd(d);
+
+      // 2. ATP
+      berkas['atp'] = kop(d, 'ALUR TUJUAN PEMBELAJARAN (ATP) HIERARKIS', 'MATA PELAJARAN PPKn ' + d.fase.toUpperCase()) +
+        '<table class="doc-table">' +
+          '<thead><tr><th width="8%">Alur</th><th width="40%">Alur Tujuan Pembelajaran</th><th width="24%">Lingkup Materi Prasyarat</th><th width="18%">Bentuk Asesmen KBC</th><th width="10%">JP</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td align="center">1.1</td><td>Mendeskripsikan perumusan Pancasila sebagai dasar negara dengan semangat persatuan dan kesadaran berbangsa.</td><td>Sejarah BPUPKI & Piagam Jakarta</td><td>Formatif Berkesadaran</td><td align="center">4 JP</td></tr>' +
+            '<tr><td align="center">1.2</td><td>Menganalisis kedudukan dan fungsi Pancasila bagi bangsa dan negara Indonesia.</td><td>Kedudukan & Fungsi Ideologi</td><td>Diskusi STIFIn Meaningful</td><td align="center">4 JP</td></tr>' +
+            '<tr><td align="center">1.3</td><td>Membiasakan nilai-nilai Pancasila dalam keseharian santri serta bangga sebagai bangsa Indonesia.</td><td>Aktualisasi Nilai Luhur</td><td>Karya Proyek Joyful</td><td align="center">4 JP</td></tr>' +
+            '<tr><td align="center">2.1</td><td>Menganalisis pengesahan UUD NRI 1945 serta kesadaran hak dan kewajiban warga negara.</td><td>Konstitusi & UUD NRI 1945</td><td>Kaji Kasus Pelanggaran</td><td align="center">6 JP</td></tr>' +
+          '</tbody>' +
+        '</table>' + ttd(d);
+
+      // 3. TP
+      berkas['tp'] = kop(d, 'RUMUSAN TUJUAN PEMBELAJARAN (TP) FORMAT ABCD', 'INTEGRASI PANCA CINTA & PROFIL LULUSAN') +
+        '<table class="doc-table">' +
+          '<thead><tr><th width="10%">Kode</th><th width="52%">Tujuan Pembelajaran (Audience, Behavior, Condition, Degree)</th><th width="24%">Profil Lulusan & Panca Cinta</th><th width="14%">JP</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td align="center">TP.01</td><td>Melalui penelusuran literatur dan tayangan video sejarah (C), peserta didik (A) mampu <strong>menganalisis perumusan dan keterkaitan sila-sila Pancasila</strong> (B) secara runtut, kritis, dan berkesadaran (D).</td><td>Penalaran Kritis & Cinta Ilmu</td><td align="center">2 JP</td></tr>' +
+            '<tr><td align="center">TP.02</td><td>Melalui diskusi kelompok berbasis mesin kecerdasan STIFIn (C), peserta didik (A) mampu <strong>mengaitkan kedudukan ideologi Pancasila dengan pembiasaan adab santri di pesantren</strong> (B) secara tepat dan santun (D).</td><td>Keimanan-Ketakwaan & Cinta Tuhan</td><td align="center">2 JP</td></tr>' +
+            '<tr><td align="center">TP.03</td><td>Melalui kegiatan reflektif dan proyek infografis (C), peserta didik (A) mampu <strong>menunjukkan wujud bangga sebagai bangsa Indonesia dalam era digital</strong> (B) secara kreatif dan komunikatif (D).</td><td>Kewargaan & Cinta Bangsa-Negara</td><td align="center">2 JP</td></tr>' +
+          '</tbody>' +
+        '</table>' + ttd(d);
+
+      // 4. Prota
+      berkas['prota'] = kop(d, 'PROGRAM TAHUNAN (PROTA)', 'TAHUN PELAJARAN 2026/2027') +
+        '<table class="doc-table">' +
+          '<thead><tr><th>Smt</th><th>Bab</th><th>Materi Pokok (Sesuai Input Guru)</th><th>JP</th><th>Keterangan</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td rowspan="2" align="center"><strong>Gasal (1)</strong></td><td>BAB I</td><td>' + d.materiSmt1.split('\n\n')[0].replace(/\n/g, '<br>') + '</td><td align="center">18 JP</td><td>KBC & STIFIn</td></tr>' +
+            '<tr><td>BAB II</td><td>' + (d.materiSmt1.split('\n\n')[1] || 'UUD NRI 1945').replace(/\n/g, '<br>') + '</td><td align="center">18 JP</td><td>Deep Learning</td></tr>' +
+            '<tr style="background:#f8fafc; font-weight:bold;"><td colspan="3" align="center">TOTAL SEMESTER GASAL</td><td align="center">36 JP</td><td>-</td></tr>' +
+            '<tr><td rowspan="2" align="center"><strong>Genap (2)</strong></td><td>BAB III</td><td>' + d.materiSmt2.split('\n\n')[0].replace(/\n/g, '<br>') + '</td><td align="center">18 JP</td><td>Harmoni Santri</td></tr>' +
+            '<tr><td>BAB IV</td><td>' + (d.materiSmt2.split('\n\n')[1] || 'NKRI').replace(/\n/g, '<br>') + '</td><td align="center">18 JP</td><td>Wawasan Kebangsaan</td></tr>' +
+            '<tr style="background:#f8fafc; font-weight:bold;"><td colspan="3" align="center">TOTAL SEMESTER GENAP</td><td align="center">36 JP</td><td>-</td></tr>' +
+            '<tr style="background:#ecfdf5; font-weight:bold;"><td colspan="3" align="center">TOTAL SATU TAHUN AJARAN</td><td align="center">72 JP</td><td>Tuntas Terstruktur</td></tr>' +
+          '</tbody>' +
+        '</table>' + ttd(d);
+
+      // 5. Promes
+      berkas['promes'] = kop(d, 'PROGRAM SEMESTER (PROMES)', 'SEMESTER ' + d.semester.toUpperCase() + ' - TP 2026/2027') +
+        '<table class="doc-table">' +
+          '<thead><tr><th rowspan="2">No</th><th rowspan="2">Materi Pokok / Indikator</th><th rowspan="2">JP</th><th colspan="4">Juli</th><th colspan="4">Agustus</th><th colspan="4">September</th><th colspan="4">Oktober</th><th colspan="4">November</th><th colspan="4">Desember</th></tr><tr style="font-size:0.7rem;"><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td align="center">1</td><td>Perumusan Dasar Negara & Konsep Nilai</td><td align="center">4</td><td align="center">2</td><td align="center">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+            '<tr><td align="center">2</td><td>Kedudukan dan Fungsi Ideologi bagi Bangsa</td><td align="center">4</td><td></td><td></td><td align="center">2</td><td align="center">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+            '<tr><td align="center">3</td><td>Aktualisasi Nilai Luhur dalam Keseharian Santri</td><td align="center">4</td><td></td><td></td><td></td><td></td><td align="center">2</td><td align="center">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+            '<tr><td align="center">4</td><td>Bangga sebagai Bangsa Indonesia & Evaluasi BAB I</td><td align="center">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td align="center">2</td><td align="center">2</td><td align="center">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
+            '<tr><td align="center">5</td><td>BAB II: Konstitusi, Hak-Kewajiban & Proyek STIFIn</td><td align="center">18</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td align="center">2</td><td align="center">2</td><td align="center">2</td><td align="center">2</td><td align="center">2</td><td align="center">2</td><td align="center">2</td><td align="center">2</td><td align="center">2</td><td></td><td></td><td></td><td></td></tr>' +
+            '<tr style="background:#ecfdf5; font-weight:bold;"><td colspan="2" align="center">JUMLAH ALOKASI WAKTU GASAL</td><td align="center">36</td><td colspan="24" align="center">Terdistribusi Penuh Sesuai Kalender Pendidikan Efektif</td></tr>' +
+          '</tbody>' +
+        '</table>' + ttd(d);
+
+      // 6. RPP Kurikulum Berbasis Cinta (Lengkap)
+      berkas['modul'] = kop(d, 'RENCANA PELAKSANAAN PEMBELAJARAN (RPP) KBC', 'PENDEKATAN DEEP LEARNING (BERKESADARAN, BERMAKNA, MENGGEMBIRAKAN)') +
+        '<div class="section-head">A. IDENTIFIKASI PESERTA DIDIK & PROFIL LULUSAN KBC</div>' +
+        '<table class="doc-table">' +
+          '<tr><td width="30%"><strong>5 Mesin Kecerdasan STIFIn</strong></td><td>Sensing (Fakta/Konkret), Thinking (Logika/Analisis), Intuiting (Gagasan Masa Depan), Feeling (Empati/Nilai), Insting (Sintesis Praktis).</td></tr>' +
+          '<tr><td><strong>3 Dimensi Profil Lulusan</strong></td><td><strong>' + d.profilLulusan + '</strong></td></tr>' +
+          '<tr><td><strong>3 Penerapan Panca Cinta</strong></td><td><strong>' + d.pancaCinta + '</strong></td></tr>' +
+          '<tr><td><strong>Personal Branding Madrasah</strong></td><td>Membentuk kader santri Al Fauzan yang berkarakter Pancasilais, berwawasan global, dan kokoh dalam aqidah Islamiyah.</td></tr>' +
+        '</table>' +
+        '<div class="section-head">B. DESAIN PEMBELAJARAN</div>' +
+        '<table class="doc-table">' +
+          '<tr><td width="30%"><strong>Praktik Pedagogik</strong></td><td>Deep Learning dengan model Problem Based Learning (PBL) berkesadaran.</td></tr>' +
+          '<tr><td><strong>Kemitraan Pembelajaran</strong></td><td>Kolaborasi antarsantri di asrama, bimbingan guru, dan kitab kepesantrenan.</td></tr>' +
+          '<tr><td><strong>Lingkungan Pembelajaran</strong></td><td>Ruang kelas interaktif bernuansa islami, bersahabat, dan saling memuliakan.</td></tr>' +
+          '<tr><td><strong>Pemanfaatan Digital</strong></td><td>Penayangan cuplikan arsip digital perumusan Pancasila & desain infografis Canva.</td></tr>' +
+          '<tr><td><strong>Pertanyaan Pemantik</strong></td><td>1. Mengapa para ulama dan pendiri bangsa begitu mencintai persatuan hingga berhasil merumuskan dasar negara?<br>2. Bagaimana kita sebagai santri membuktikan cinta pada bangsa melalui amalan sehari-hari?</td></tr>' +
+        '</table>' +
+        '<div class="section-head">C. PENGALAMAN BELAJAR (LANGKAH-LANGKAH PEMBELAJARAN)</div>' +
+        '<table class="doc-table">' +
+          '<thead><tr><th width="20%">Tahap Pembelajaran</th><th width="65%">Aktivitas Guru & Santri (Deep Learning KBC)</th><th width="15%">Waktu</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td><strong>Pendahuluan</strong><br><small style="color:#047857;">(Berkesadaran / Mindful)</small></td><td>1. <strong>Doa & Cinta Ilahiah:</strong> Guru dan santri mengawali kelas dengan doa khusyuk dan sholawat.<br>2. <strong>Hadir Utuh (Mindful):</strong> Guru mengajak santri hening sejenak, menyadari niat belajar menuntut ilmu.<br>3. <strong>Apersepsi Cinta Bangsa:</strong> Mengaitkan perjuangan ulama dan santri dalam melahirkan dasar negara.<br>4. Menyampaikan tujuan belajar, skenario diferensiasi STIFIn, serta rubrik penilaian.</td><td align="center">15 Menit</td></tr>' +
+            '<tr><td><strong>Kegiatan Inti</strong><br><small style="color:#047857;">(Memahami, Mengaplikasi, Merefleksi - Joyful)</small></td><td><strong>1. Memahami (Orientasi Kasus Bermakna):</strong> Santri menyimak dinamika sidang perumusan. Guru memantik nalar kritis santri tentang kompromi luhur pendiri bangsa demi keutuhan NKRI.<br><strong>2. Diferensiasi 5 Kelompok STIFIn:</strong> Santri bergabung ke dalam tim sesuai mesin kecerdasannya untuk mengkaji materi:<br>&nbsp;&nbsp;• <em>Sensing (Merah):</em> Menyusun data dan fakta kronologi perumusan.<br>&nbsp;&nbsp;• <em>Thinking (Hitam):</em> Menganalisis logika keterkaitan sila-sila Pancasila.<br>&nbsp;&nbsp;• <em>Intuiting (Biru Tua):</em> Merancang skema masa depan peran nilai luhur di era digital.<br>&nbsp;&nbsp;• <em>Feeling (Hijau):</em> Menghayati nilai empati, gotong royong, dan toleransi santri.<br>&nbsp;&nbsp;• <em>Insting (Kuning):</em> Menyintesis rangkuman cepat dan aksi nyata damai.<br><strong>3. Mengaplikasi (Investigasi Terbimbing):</strong> Santri menuntaskan lembar LKPD dengan riang gembira (joyful).<br><strong>4. Merefleksi & Berbagi:</strong> Tiap kelompok membagikan hasil pemikirannya secara santun dan saling memuliakan.</td><td align="center">60 Menit</td></tr>' +
+            '<tr><td><strong>Penutup</strong><br><small style="color:#047857;">(Menggembirakan / Joyful)</small></td><td>1. Menarik kesimpulan esensial secara bersama-sama penuh rasa syukur.<br>2. Santri menuliskan 1 komitmen pribadi amalan cinta tanah air di asrama.<br>3. Apresiasi hangat dari guru terhadap etos belajar santri dan doa kafaratul majelis.</td><td align="center">15 Menit</td></tr>' +
+          '</tbody>' +
+        '</table>' +
+        '<div class="section-head">D. LAMPIRAN 1 S.D. 6 LENGKAP</div>' +
+        '<table class="doc-table">' +
+          '<tr><td width="30%"><strong>Lampiran 1: Bahan Ajar</strong></td><td>Ringkasan materi esensial terintegrasi Panca Cinta.</td></tr>' +
+          '<tr><td><strong>Lampiran 2: LKPD STIFIn</strong></td><td>Lembar kerja berdiferensiasi

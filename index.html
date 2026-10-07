@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistem Penyusun Perangkat Pembelajaran KBC & STIFIn</title>
+  <title>Sistem Perangkat Pembelajaran KBC & STIFIn</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; color: #0f172a; padding-bottom: 50px; }
@@ -55,15 +55,16 @@
     .tab-btn { background: #f8fafc; border: 1px solid #cbd5e1; padding: 5px 9px; font-size: 0.78rem; font-weight: 600; border-radius: 5px; cursor: pointer; color: #475569; }
     .tab-btn.active { background: #064e3b; color: white; border-color: #064e3b; }
 
-    /* Accordion Prompt */
-    .accordion-header { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 10px; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: flex; justify-content: space-between; margin-bottom: 3px; }
-    .accordion-content { display: none; padding: 8px; background: #fff; border: 1px solid #cbd5e1; border-top: none; border-radius: 0 0 6px 6px; margin-bottom: 6px; }
-    .accordion-content.show { display: block; }
-
     /* Lembar Dokumen A4 */
     .doc-paper { background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 40px; min-height: 850px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .doc-paper.editing { outline: 2px dashed #059669; background: #fffffb; }
     
+    .kop-header { display: flex; align-items: center; gap: 18px; border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 18px; }
+    .kop-logo { width: 75px; height: 75px; object-fit: contain; }
+    .kop-text { flex: 1; text-align: center; }
+    .kop-text h3 { font-size: 1.15rem; font-weight: 800; color: #064e3b; text-transform: uppercase; margin-bottom: 2px; }
+    .kop-text p { font-size: 0.85rem; color: #334155; margin-bottom: 2px; }
+
     .doc-title { text-align: center; font-size: 1.12rem; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; color: #064e3b; }
     .doc-subtitle { text-align: center; font-size: 0.92rem; font-weight: 600; margin-bottom: 18px; color: #334155; }
     
@@ -78,7 +79,6 @@
     .ttd-box { width: 100%; margin-top: 35px; border-collapse: collapse; text-align: center; font-size: 0.86rem; }
     .ttd-box td { width: 50%; vertical-align: top; }
 
-    /* Kartu STIFIn Warna Khas Resmi */
     .stifin-card { border-left: 6px solid; padding: 12px; margin-bottom: 12px; background: #f8fafc; border-radius: 6px; font-size: 0.85rem; }
     .stifin-sensing { border-color: #dc2626; background: #fef2f2; }
     .stifin-thinking { border-color: #0f172a; background: #f8fafc; }
@@ -99,7 +99,7 @@
 
   <header class="no-print">
     <h1><span>🌿</span> Sistem Perangkat Pembelajaran KBC & STIFIn (Fase D s.d. F)</h1>
-    <p>Generator Otomatis 8 Perangkat Pembelajaran Terintegrasi: CP &rarr; ATP &rarr; TP &rarr; Prota &rarr; Promes &rarr; RPP KBC &rarr; Bahan Ajar &rarr; LKPD STIFIn</p>
+    <p>Generator Otomatis 8 Perangkat: CP &rarr; ATP &rarr; TP &rarr; Prota &rarr; Promes &rarr; RPP KBC &rarr; Bahan Ajar &rarr; LKPD STIFIn</p>
   </header>
 
   <div class="main-container">
@@ -122,7 +122,7 @@
               <a href="https://aistudio.google.com/app/apikey" target="_blank" style="font-size:0.75rem; color:#059669; text-decoration:none;">Ambil Kunci Gratis &rarr;</a>
             </div>
             <div style="display:flex; gap:6px;">
-              <input type="password" id="geminiApiKey" placeholder="Tempel kunci AI Studio Anda...">
+              <input type="password" id="geminiApiKey" placeholder="Tempel kunci AI Studio...">
               <button type="button" class="btn btn-outline btn-sm" onclick="toggleLihatKey()">👁️</button>
               <button type="button" class="btn btn-outline btn-sm" onclick="tesKoneksiApi()">Tes</button>
             </div>
@@ -132,8 +132,9 @@
             <div class="form-group">
               <label>Model AI</label>
               <select id="geminiModel">
-                <option value="gemini-3.8-flash" selected>gemini-3.8-flash (Rekomendasi Cepat)</option>
-                <option value="gemini-3.8-pro">gemini-3.8-pro (Analisis Mendalam)</option>
+                <option value="gemini-2.5-flash">gemini-2.5-flash (Alternatif Stabil & Ringan)</option>
+                <option value="gemini-3.8-flash" selected>gemini-3.8-flash (Model Terbaru)</option>
+                <option value="gemini-3.8-pro">gemini-3.8-pro (Analisis Komprehensif)</option>
               </select>
             </div>
             <div class="form-group">
@@ -147,9 +148,19 @@
         </div>
 
         <h2>
-          <span>Identitas Madrasah & Pembelajaran</span>
+          <span>Identitas Madrasah & Logo</span>
           <span class="badge-kbc">KBC 2026/2027</span>
         </h2>
+
+        <!-- MENU BARU: Unggah Logo Lembaga -->
+        <div class="form-group" style="background:#f8fafc; border:1px dashed #059669; padding:10px; border-radius:6px;">
+          <label style="color:#064e3b; font-weight:700;">Logo Lembaga / Madrasah (Kop Surat)</label>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <input type="file" id="inputLogo" accept="image/*" onchange="prosesUploadLogo(event)" style="font-size:0.78rem;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="hapusLogo()" id="btnHapusLogo" style="display:none;">Hapus</button>
+          </div>
+          <div style="font-size:0.72rem; color:#64748b; margin-top:4px;">*Mendukung PNG/JPG. Logo otomatis disematkan pada lembar kop dokumen & ekspor Word.</div>
+        </div>
 
         <div class="form-group">
           <label>Satuan Pendidikan</label>
@@ -205,7 +216,7 @@
           </div>
         </div>
 
-        <!-- Materi Semester 1 (Bisa Diedit Bebas oleh Guru) -->
+        <!-- Materi Semester 1 -->
         <div class="edit-box-semester">
           <label><span>Materi Pokok Semester 1</span> <span style="font-size:0.7rem; color:#0369a1;">(Dapat Diedit Bebas)</span></label>
           <textarea id="materiSmt1" rows="5">BAB I Pancasila
@@ -221,7 +232,7 @@ c. Kemerdekaan Berpendapat sesuai Nilai-nilai Pancasila
 d. Pelanggaran Hak dan Pengingkaran Kewajiban</textarea>
         </div>
 
-        <!-- Materi Semester 2 (Bisa Diedit Bebas oleh Guru) -->
+        <!-- Materi Semester 2 -->
         <div class="edit-box-semester">
           <label><span>Materi Pokok Semester 2</span> <span style="font-size:0.7rem; color:#0369a1;">(Dapat Diedit Bebas)</span></label>
           <textarea id="materiSmt2" rows="5">BAB III Bhinneka Tunggal Ika
@@ -250,25 +261,6 @@ c. Persamaan Kedudukan Warga Negara</textarea>
               <option value="Kewargaan, Kolaborasi, Komunikasi">Kewargaan, Kolaborasi, Komunikasi</option>
               <option value="Penalaran Kritis, Kreativitas, Kemandirian">Kritis, Kreativitas, Mandiri</option>
             </select>
-          </div>
-        </div>
-
-        <!-- Prompt Kustom Berjenjang (Dapat Diatur oleh Guru) -->
-        <div style="margin-top:10px;">
-          <label style="font-weight:700; color:#064e3b; margin-bottom:6px;">⚙️ Kustomisasi Prompt AI Berjenjang</label>
-          
-          <div class="accordion-header" onclick="toggleAcc('p1')">
-            <span>1. Prompt CP & ATP</span><span>▾</span>
-          </div>
-          <div class="accordion-content" id="p1">
-            <textarea id="prompt_cp_atp" rows="3">Susun analisis 4 elemen CP (Pancasila, UUD 1945, Bhinneka Tunggal Ika, NKRI) dan Alur Tujuan Pembelajaran (ATP) berjenjang kelas {fase} terintegrasi Panca Cinta ({panca_cinta}) dan nilai kontekstual pesantren Al Fauzan.</textarea>
-          </div>
-
-          <div class="accordion-header" onclick="toggleAcc('p2')">
-            <span>2. Prompt RPP KBC & STIFIn</span><span>▾</span>
-          </div>
-          <div class="accordion-content" id="p2">
-            <textarea id="prompt_rpp" rows="3">Susun RPP Kurikulum Berbasis Cinta (KBC) pendekatan Deep Learning (Berkesadaran, Bermakna, Menggembirakan) durasi {waktu} dengan diferensiasi 5 mesin kecerdasan STIFIn dan lampiran lengkap 1 s.d. 6.</textarea>
           </div>
         </div>
 
@@ -316,9 +308,11 @@ c. Persamaan Kedudukan Warga Negara</textarea>
         </div>
       </div>
 
-      <!-- Kertas Pratinjau Dokumen Siap Cetak -->
+      <!-- Kertas Pratinjau Dokumen -->
       <div class="doc-paper" id="paperRender" contenteditable="false">
-        <!-- Dokumen dimuat otomatis di sini -->
+        <div style="text-align: center; padding: 40px; color: #64748b;">
+          Sedang menyiapkan dokumen pembelajaran...
+        </div>
       </div>
 
     </div>
@@ -330,12 +324,7 @@ c. Persamaan Kedudukan Warga Negara</textarea>
     var tabAktif = 'modul';
     var sedangEdit = false;
     var modeAktif = 'standar';
-
-    window.addEventListener('DOMContentLoaded', function() {
-      var savedKey = localStorage.getItem('gemini_api_key_kbc') || '';
-      if (savedKey) document.getElementById('geminiApiKey').value = savedKey;
-      jalankanPenyusunan();
-    });
+    var logoBase64 = localStorage.getItem('logo_lembaga_kbc') || '';
 
     function gantiMode(m) {
       modeAktif = m;
@@ -349,9 +338,26 @@ c. Persamaan Kedudukan Warga Negara</textarea>
       el.type = el.type === 'password' ? 'text' : 'password';
     }
 
-    function toggleAcc(id) {
-      var el = document.getElementById(id);
-      el.classList.toggle('show');
+    function prosesUploadLogo(evt) {
+      var file = evt.target.files[0];
+      if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          logoBase64 = e.target.result;
+          localStorage.setItem('logo_lembaga_kbc', logoBase64);
+          document.getElementById('btnHapusLogo').style.display = 'inline-block';
+          susunStandarLengkap(ambilData());
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function hapusLogo() {
+      logoBase64 = '';
+      localStorage.removeItem('logo_lembaga_kbc');
+      document.getElementById('inputLogo').value = '';
+      document.getElementById('btnHapusLogo').style.display = 'none';
+      susunStandarLengkap(ambilData());
     }
 
     async function tesKoneksiApi() {
@@ -374,7 +380,12 @@ c. Persamaan Kedudukan Warga Negara</textarea>
           localStorage.setItem('gemini_api_key_kbc', key);
           status.innerHTML = '<span style="color:#059669; font-weight:bold;">Tersambung sukses (' + model + ')!</span>';
         } else {
-          status.innerHTML = '<span style="color:#dc2626;">Gagal: ' + (d.error?.message || 'Periksa API Key') + '</span>';
+          var errMsg = d.error?.message || 'Periksa API Key';
+          if (errMsg.indexOf('high demand') !== -1) {
+            status.innerHTML = '<span style="color:#dc2626;">Model sedang padat antrean trafik. Silakan ubah pilihan model ke <strong>gemini-2.5-flash</strong> lalu klik Tes kembali.</span>';
+          } else {
+            status.innerHTML = '<span style="color:#dc2626;">Gagal: ' + errMsg + '</span>';
+          }
         }
       } catch (err) {
         status.innerHTML = '<span style="color:#dc2626;">Galat: ' + err.message + '</span>';
@@ -396,27 +407,40 @@ c. Persamaan Kedudukan Warga Negara</textarea>
         tSmt1.value = "BAB I Pancasila\n- Perumusan Pancasila Sebagai dasar Negara\n- Kedudukan dan Fungsi Pancasila Bagi Bangsa dan Negara Indonesia\n- Nilai-Nilai Pancasila dalam Kehidupan Sehari-hari\n- Bangga sebagai Bangsa Indonesia\n\nBAB II Undang-Undang Dasar Negara Republik Indonesia Tahun 1945\na. Perumusan dan Pengesahan UUD NRI Tahun 1945\nb. Hak dan Kewajiban Warga Negara dalam UUD NRI Tahun 1945\nc. Kemerdekaan Berpendapat sesuai Nilai-nilai Pancasila\nd. Pelanggaran Hak dan Pengingkaran Kewajiban";
         tSmt2.value = "BAB III Bhinneka Tunggal Ika\n- Keberagaman dalam Bingkai Bhinneka Tunggal Ika\n- Kerja sama dan Gotong Royong dalam Kehidupan Bermasyarakat\n\nBAB IV Negara Kesatuan Republik Indonesia\na. Kesadaran akan Hak dan Kewajiban\nb. Peran dan Kedudukan Sebagai Warga Negara Indonesia\nc. Persamaan Kedudukan Warga Negara";
       }
+      jalankanPenyusunan();
     }
 
     function ambilData() {
       function v(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
       return {
-        sekolah: v('sekolah'),
-        guru: v('guru'),
-        kepsek: v('kepsek'),
-        mapel: v('mapel'),
-        fase: v('fase'),
-        semester: v('semester'),
-        waktu: v('waktu'),
-        materiSmt1: v('materiSmt1'),
-        materiSmt2: v('materiSmt2'),
-        pancaCinta: v('pancaCinta'),
-        profilLulusan: v('profilLulusan')
+        sekolah: v('sekolah') || 'MA Pesantren Terpadu Al Fauzan Lumajang',
+        guru: v('guru') || 'Moh. Joharul Yusuf, S.Pd.',
+        kepsek: v('kepsek') || 'Dr. Nur Ifadah, S.H, MA',
+        mapel: v('mapel') || 'Pendidikan Pancasila dan Kewarganegaraan',
+        fase: v('fase') || 'Fase E (Kelas 10)',
+        semester: v('semester') || 'Gasal (1)',
+        waktu: v('waktu') || '2 x 45 Menit',
+        materiSmt1: v('materiSmt1') || 'BAB I Pancasila',
+        materiSmt2: v('materiSmt2') || 'BAB III Bhinneka Tunggal Ika',
+        pancaCinta: v('pancaCinta') || 'Cinta kepada Tuhan YME, Sesama, & Bangsa-Negara',
+        profilLulusan: v('profilLulusan') || 'Keimanan dan Ketakwaan, Kewargaan, Penalaran Kritis'
       };
     }
 
     function kop(d, judul, sub) {
-      return '<div class="doc-title">' + judul + '</div>' +
+      var logoHtml = '';
+      if (logoBase64) {
+        logoHtml = '<img src="' + logoBase64 + '" class="kop-logo" alt="Logo Lembaga">';
+      }
+      return '<div class="kop-header">' +
+          logoHtml +
+          '<div class="kop-text">' +
+            '<h3>' + d.sekolah + '</h3>' +
+            '<p>PERANGKAT PEMBELAJARAN KURIKULUM BERBASIS CINTA (KBC) & PESANTREN</p>' +
+            '<p style="font-size:0.78rem; color:#64748b;">Tahun Pelajaran 2026/2027 • Lumajang, Jawa Timur</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="doc-title">' + judul + '</div>' +
         '<div class="doc-subtitle">' + sub + '</div>' +
         '<table class="meta-table">' +
           '<tr><td width="22%"><strong>Satuan Pendidikan</strong></td><td width="35%">: ' + d.sekolah + '</td><td width="18%"><strong>Fase / Kelas</strong></td><td width="25%">: ' + d.fase + '</td></tr>' +
@@ -435,7 +459,10 @@ c. Persamaan Kedudukan Warga Negara</textarea>
     }
 
     function susunStandarLengkap(d) {
-      // 1. CP
+      var smt1Ringkas = (d.materiSmt1 || '').replace(/\n/g, '<br>');
+      var smt2Ringkas = (d.materiSmt2 || '').replace(/\n/g, '<br>');
+
+      // 1. CP (4 Elemen Resmi)
       berkas['cp'] = kop(d, 'ANALISIS CAPAIAN PEMBELAJARAN (CP) TERINTEGRASI KBC', 'TAHUN PELAJARAN 2026/2027') +
         '<div class="section-head">A. 4 ELEMEN CAPAIAN PEMBELAJARAN (' + d.fase.toUpperCase() + ')</div>' +
         '<table class="doc-table">' +
@@ -474,22 +501,18 @@ c. Persamaan Kedudukan Warga Negara</textarea>
       // 4. Prota
       berkas['prota'] = kop(d, 'PROGRAM TAHUNAN (PROTA)', 'TAHUN PELAJARAN 2026/2027') +
         '<table class="doc-table">' +
-          '<thead><tr><th>Smt</th><th>Bab</th><th>Materi Pokok (Sesuai Input Guru)</th><th>JP</th><th>Keterangan</th></tr></thead>' +
+          '<thead><tr><th>Smt</th><th>Lingkup Pembelajaran (Input Guru)</th><th>JP</th><th>Keterangan</th></tr></thead>' +
           '<tbody>' +
-            '<tr><td rowspan="2" align="center"><strong>Gasal (1)</strong></td><td>BAB I</td><td>' + d.materiSmt1.split('\n\n')[0].replace(/\n/g, '<br>') + '</td><td align="center">18 JP</td><td>KBC & STIFIn</td></tr>' +
-            '<tr><td>BAB II</td><td>' + (d.materiSmt1.split('\n\n')[1] || 'UUD NRI 1945').replace(/\n/g, '<br>') + '</td><td align="center">18 JP</td><td>Deep Learning</td></tr>' +
-            '<tr style="background:#f8fafc; font-weight:bold;"><td colspan="3" align="center">TOTAL SEMESTER GASAL</td><td align="center">36 JP</td><td>-</td></tr>' +
-            '<tr><td rowspan="2" align="center"><strong>Genap (2)</strong></td><td>BAB III</td><td>' + d.materiSmt2.split('\n\n')[0].replace(/\n/g, '<br>') + '</td><td align="center">18 JP</td><td>Harmoni Santri</td></tr>' +
-            '<tr><td>BAB IV</td><td>' + (d.materiSmt2.split('\n\n')[1] || 'NKRI').replace(/\n/g, '<br>') + '</td><td align="center">18 JP</td><td>Wawasan Kebangsaan</td></tr>' +
-            '<tr style="background:#f8fafc; font-weight:bold;"><td colspan="3" align="center">TOTAL SEMESTER GENAP</td><td align="center">36 JP</td><td>-</td></tr>' +
-            '<tr style="background:#ecfdf5; font-weight:bold;"><td colspan="3" align="center">TOTAL SATU TAHUN AJARAN</td><td align="center">72 JP</td><td>Tuntas Terstruktur</td></tr>' +
+            '<tr><td align="center"><strong>Gasal (1)</strong></td><td>' + smt1Ringkas + '</td><td align="center">36 JP</td><td>KBC & STIFIn</td></tr>' +
+            '<tr><td align="center"><strong>Genap (2)</strong></td><td>' + smt2Ringkas + '</td><td align="center">36 JP</td><td>Wawasan Kebangsaan</td></tr>' +
+            '<tr style="background:#ecfdf5; font-weight:bold;"><td colspan="2" align="center">TOTAL SATU TAHUN AJARAN</td><td align="center">72 JP</td><td>Tuntas Terstruktur</td></tr>' +
           '</tbody>' +
         '</table>' + ttd(d);
 
       // 5. Promes
       berkas['promes'] = kop(d, 'PROGRAM SEMESTER (PROMES)', 'SEMESTER ' + d.semester.toUpperCase() + ' - TP 2026/2027') +
         '<table class="doc-table">' +
-          '<thead><tr><th rowspan="2">No</th><th rowspan="2">Materi Pokok / Indikator</th><th rowspan="2">JP</th><th colspan="4">Juli</th><th colspan="4">Agustus</th><th colspan="4">September</th><th colspan="4">Oktober</th><th colspan="4">November</th><th colspan="4">Desember</th></tr><tr style="font-size:0.7rem;"><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>' +
+          '<thead><tr><th rowspan="2">No</th><th rowspan="2">Materi Pokok / Indikator</th><th rowspan="2">JP</th><th colspan="4">Bulan 1</th><th colspan="4">Bulan 2</th><th colspan="4">Bulan 3</th><th colspan="4">Bulan 4</th><th colspan="4">Bulan 5</th><th colspan="4">Bulan 6</th></tr><tr style="font-size:0.7rem;"><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>' +
           '<tbody>' +
             '<tr><td align="center">1</td><td>Perumusan Dasar Negara & Konsep Nilai</td><td align="center">4</td><td align="center">2</td><td align="center">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
             '<tr><td align="center">2</td><td>Kedudukan dan Fungsi Ideologi bagi Bangsa</td><td align="center">4</td><td></td><td></td><td align="center">2</td><td align="center">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>' +
@@ -500,7 +523,7 @@ c. Persamaan Kedudukan Warga Negara</textarea>
           '</tbody>' +
         '</table>' + ttd(d);
 
-      // 6. RPP Kurikulum Berbasis Cinta (Lengkap)
+      // 6. RPP KBC Lengkap
       berkas['modul'] = kop(d, 'RENCANA PELAKSANAAN PEMBELAJARAN (RPP) KBC', 'PENDEKATAN DEEP LEARNING (BERKESADARAN, BERMAKNA, MENGGEMBIRAKAN)') +
         '<div class="section-head">A. IDENTIFIKASI PESERTA DIDIK & PROFIL LULUSAN KBC</div>' +
         '<table class="doc-table">' +
@@ -529,4 +552,230 @@ c. Persamaan Kedudukan Warga Negara</textarea>
         '<div class="section-head">D. LAMPIRAN 1 S.D. 6 LENGKAP</div>' +
         '<table class="doc-table">' +
           '<tr><td width="30%"><strong>Lampiran 1: Bahan Ajar</strong></td><td>Ringkasan materi esensial terintegrasi Panca Cinta.</td></tr>' +
-          '<tr><td><strong>Lampiran 2: LKPD STIFIn</strong></td><td>Lembar kerja berdiferensiasi
+          '<tr><td><strong>Lampiran 2: LKPD STIFIn</strong></td><td>Lembar kerja berdiferensiasi 5 kelompok kecerdasan STIFIn warna-warni.</td></tr>' +
+          '<tr><td><strong>Lampiran 3: Instrumen Penilaian</strong></td><td>Lembar tes tertulis uji pemahaman konsep & lembar observasi afektif.</td></tr>' +
+          '<tr><td><strong>Lampiran 4: Rubrik Penilaian</strong></td><td>Skala penilaian 1-4 mencakup ketepatan konsep, nalar kritis, dan adab santri.</td></tr>' +
+          '<tr><td><strong>Lampiran 5: Remedial & Pengayaan</strong></td><td>Tutor sebaya bagi yang belum tuntas & telaah jurnal bagi pengayaan.</td></tr>' +
+          '<tr><td><strong>Lampiran 6: Refleksi Guru & Santri</strong></td><td>Jurnal refleksi berkesadaran terkait kebermaknaan pembelajaran hari ini.</td></tr>' +
+        '</table>' + ttd(d);
+
+      // 7. Bahan Ajar Lengkap
+      berkas['bahan'] = kop(d, 'BAHAN AJAR PESERTA DIDIK TERINTEGRASI KBC', 'MATERI: ' + d.fase.toUpperCase()) +
+        '<div class="section-head">A. SASARAN BELAJAR & HIKMAH SPIRITUAL</div>' +
+        '<p style="font-size:0.86rem; line-height:1.6; margin-bottom:12px;">Santri mampu memahami sejarah perumusan dan kedudukan dasar negara dengan penalaran kritis, serta memiliki komitmen jiwa untuk mengamalkannya dengan penuh ketulusan cinta di lingkungan madrasah dan asrama.</p>' +
+        '<div class="section-head">B. URAIAN MATERI ESENSIAL</div>' +
+        '<div style="background:#fff; border:1px solid #cbd5e1; padding:15px; border-radius:6px; line-height:1.7; font-size:0.86rem; text-align:justify; margin-bottom:14px;">' +
+          'Dasar negara dan konstitusi Indonesia digali dari akar kepribadian, keluhuran budi, serta nilai spiritualitas bangsa. Dalam sejarahnya, perumusan dasar negara melibatkan para tokoh bangsa dan ulama pesantren yang mengedepankan musyawarah demi kemaslahatan bersama.<br><br>' +
+          'Dalam Kurikulum Berbasis Cinta (KBC), mempelajari materi ini bukan sekadar menghafal butir pasal, melainkan menghidupkan <strong>Panca Cinta</strong>: mencintai Allah SWT dengan mengamalkan ketaatan beragama, mencintai sesama insan melalui keadilan dan kemanusiaan, serta mencintai tanah air dengan menjaga persatuan dan perdamaian di bumi pertiwi.' +
+        '</div>' +
+        '<div class="section-head">C. PETA KONSEP MATERI</div>' +
+        '<table class="doc-table">' +
+          '<thead><tr><th width="30%">Sub-Materi</th><th width="40%">Substansi Konseptual</th><th width="30%">Wujud Amalan Santri</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td><strong>1. Perumusan Dasar</strong></td><td>Sidang BPUPKI I, Piagam Jakarta, & Sidang Pengesahan PPKI.</td><td>Menghormati jasa ulama dan pendiri bangsa.</td></tr>' +
+            '<tr><td><strong>2. Kedudukan & Fungsi</strong></td><td>Dasar negara, ideologi negara, jiwa bangsa, dan falsafah hidup.</td><td>Menjadikan nilai luhur panduan etika di madrasah.</td></tr>' +
+            '<tr><td><strong>3. Nilai Keseharian</strong></td><td>Keseimbangan hubungan vertikal (hablum minallah) dan horizontal (hablum minannas).</td><td>Toleransi, musyawarah, dan gotong royong asrama.</td></tr>' +
+            '<tr><td><strong>4. Bangga sebagai Bangsa</strong></td><td>Mencintai identitas nasional dan menjaga marwah negeri di era modern.</td><td>Menuntut ilmu dengan tekun demi kemajuan bangsa.</td></tr>' +
+          '</tbody>' +
+        '</table>' + ttd(d);
+
+      // 8. LKPD STIFIn Warna-Warni
+      berkas['lkpd'] = kop(d, 'LEMBAR KERJA PESERTA DIDIK (LKPD) STIFIn', 'AKTIVITAS BERDIFERENSIASI KURIKULUM BERBASIS CINTA') +
+        '<table class="meta-table" style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; margin-bottom:15px;">' +
+          '<tr><td width="15%"><strong>Nama Kelompok</strong></td><td width="35%">: ............................................</td><td width="15%"><strong>Mesin STIFIn</strong></td><td width="35%">: Sensing / Thinking / Intuiting / Feeling / Insting</td></tr>' +
+          '<tr><td><strong>Anggota Tim</strong></td><td>: 1. ........................................<br>: 2. ........................................</td><td><strong>Fase / Waktu</strong><br><strong>Materi</strong></td><td>: ' + d.fase + ' / 45 Menit<br>: Perangkat Pembelajaran KBC</td></tr>' +
+        '</table>' +
+        '<div class="section-head">LEMBAR AKTIVITAS BERDIFERENSIASI 5 KELOMPOK STIFIn:</div>' +
+        
+        '<div class="stifin-card stifin-sensing">' +
+          '<strong style="color:#dc2626;">🔴 KELOMPOK SENSING (Warna Merah - Berpijak pada Fakta, Data, & Rinci):</strong><br>' +
+          '<em>Instruksi Kerja:</em> Susun garis waktu (timeline) kronologis peristiwa perumusan dasar negara dari tanggal 29 Mei 1945 sampai 18 Agustus 1945 lengkap dengan nama tokoh pengusul dan data fakta otentik peristiwa sidang!' +
+          '<div style="border:1px dashed #dc2626; min-height:65px; margin-top:8px; background:#fff; padding:6px; border-radius:4px;"></div>' +
+        '</div>' +
+
+        '<div class="stifin-card stifin-thinking">' +
+          '<strong style="color:#0f172a;">⚫ KELOMPOK THINKING (Warna Hitam - Berpijak pada Logika, Analisis, & Sebab-Akibat):</strong><br>' +
+          '<em>Instruksi Kerja:</em> Analisislah keterkaitan logis dan hierarkis sila pertama hingga sila kelima Pancasila. Mengapa sila pertama menjadi payung spiritual bagi keempat sila lainnya?' +
+          '<div style="border:1px dashed #0f172a; min-height:65px; margin-top:8px; background:#fff; padding:6px; border-radius:4px;"></div>' +
+        '</div>' +
+
+        '<div class="stifin-card stifin-intuiting">' +
+          '<strong style="color:#1e3a8a;">🔵 KELOMPOK INTUITING (Warna Biru Tua - Berpijak pada Konsep Masa Depan, Visi, & Kreativitas):</strong><br>' +
+          '<em>Instruksi Kerja:</em> Rancang sebuah konsep inovatif / proyek digital tentang cara mengenalkan nilai-nilai Pancasila kepada generasi muda dunia di era Artificial Intelligence!' +
+          '<div style="border:1px dashed #1e3a8a; min-height:65px; margin-top:8px; background:#fff; padding:6px; border-radius:4px;"></div>' +
+        '</div>' +
+
+        '<div class="stifin-card stifin-feeling">' +
+          '<strong style="color:#059669;">🟢 KELOMPOK FEELING (Warna Hijau - Berpijak pada Empati, Harmoni, & Nilai Kemanusiaan):</strong><br>' +
+          '<em>Instruksi Kerja:</em> Uraikan bagaimana nilai musyawarah dan tepa salira dapat mencegah terjadinya perselisihan antarteman di asrama madrasah. Tuliskan dalam bentuk narasi reflektif!' +
+          '<div style="border:1px dashed #059669; min-height:65px; margin-top:8px; background:#fff; padding:6px; border-radius:4px;"></div>' +
+        '</div>' +
+
+        '<div class="stifin-card stifin-insting">' +
+          '<strong style="color:#d97706;">🟡 KELOMPOK INSTING (Warna Kuning - Berpijak pada Sintesis Praktis, Tindakan Cepat, & Serbaguna):</strong><br>' +
+          '<em>Instruksi Kerja:</em> Rumuskan 3 aksi damai kilat yang bisa langsung dipraktikkan hari ini di pesantren untuk mewujudkan rasa bangga sebagai santri Indonesia!' +
+          '<div style="border:1px dashed #d97706; min-height:65px; margin-top:8px; background:#fff; padding:6px; border-radius:4px;"></div>' +
+        '</div>' + ttd(d);
+
+      // 9. Paket Lengkap
+      berkas['semua'] = berkas['cp'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['atp'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['tp'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['prota'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['promes'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['modul'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['bahan'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['lkpd'];
+
+      bukaTab(tabAktif);
+    }
+
+    async function susunViaGemini(d) {
+      var apiKey = document.getElementById('geminiApiKey').value.trim();
+      var model = document.getElementById('geminiModel').value;
+      var temp = parseFloat(document.getElementById('geminiTemp').value) || 0.7;
+
+      var promptLengkap = "Anda adalah konsultan kurikulum madrasah Kurikulum Berbasis Cinta (KBC).\n" +
+        "Susun 8 perangkat pembelajaran untuk:\n" +
+        "Madrasah: " + d.sekolah + "\nGuru: " + d.guru + "\nKepala: " + d.kepsek + "\nMapel: " + d.mapel + " - " + d.fase + "\nSemester: " + d.semester + "\n" +
+        "Materi Smt 1: " + d.materiSmt1 + "\nMateri Smt 2: " + d.materiSmt2 + "\n" +
+        "Profil Lulusan: " + d.profilLulusan + "\nPanca Cinta: " + d.pancaCinta + "\n\n" +
+        "Kembalikan HANYA format JSON valid tanpa tanda kutip markdown:\n" +
+        "{\n  \"cp\": \"HTML tabel CP\",\n  \"atp\": \"HTML tabel ATP\",\n  \"tp\": \"HTML tabel TP ABCD\",\n  \"prota\": \"HTML tabel Prota 72 JP\",\n  \"promes\": \"HTML tabel Promes\",\n  \"modul\": \"HTML RPP KBC Deep Learning lengkap\",\n  \"bahan\": \"HTML Bahan Ajar KBC\",\n  \"lkpd\": \"HTML LKPD 5 kelompok STIFIn warna khas\"\n}";
+
+      var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + apiKey, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: promptLengkap }] }],
+          generationConfig: { temperature: temp, responseMimeType: "application/json" }
+        })
+      });
+
+      if (!res.ok) {
+        var err = await res.json();
+        throw new Error(err.error?.message || 'Gagal menghubungi Gemini');
+      }
+
+      var resData = await res.json();
+      var parsed = JSON.parse(resData.candidates[0].content.parts[0].text);
+
+      for (var k in parsed) {
+        berkas[k] = parsed[k] + ttd(d);
+      }
+
+      berkas['semua'] = berkas['cp'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['atp'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['tp'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['prota'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['promes'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['modul'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['bahan'] + '<div style="page-break-after:always; margin:40px 0; border-bottom:2px dashed #94a3b8;"></div>' +
+        berkas['lkpd'];
+
+      bukaTab(tabAktif);
+    }
+
+    async function jalankanPenyusunan() {
+      var btn = document.getElementById('btnProses');
+      var teksAwal = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Sedang Memproses Perangkat...';
+      }
+
+      var data = ambilData();
+      var key = (document.getElementById('geminiApiKey')?.value || '').trim();
+
+      try {
+        if (modeAktif === 'gemini' && key !== '') {
+          try {
+            await susunViaGemini(data);
+          } catch (geminiErr) {
+            alert('AI mengalami kendala lalu lintas jaringan: ' + geminiErr.message + '\nBeralih ke generator standar KBC offline.');
+            susunStandarLengkap(data);
+          }
+        } else {
+          susunStandarLengkap(data);
+        }
+      } catch (e) {
+        susunStandarLengkap(data);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = teksAwal;
+        }
+      }
+    }
+
+    function bukaTab(nama) {
+      tabAktif = nama;
+      
+      var btns = document.querySelectorAll('#tabGroup .tab-btn');
+      btns.forEach(function(b) { b.classList.remove('active'); });
+      var btnTarget = Array.from(btns).find(function(b) { return b.getAttribute('onclick')?.indexOf("'" + nama + "'") !== -1; });
+      if (btnTarget) btnTarget.classList.add('active');
+
+      var steps = document.querySelectorAll('.stepper .step-item');
+      steps.forEach(function(s) { s.classList.remove('active'); });
+      var stTarget = document.getElementById('st-' + nama);
+      if (stTarget) stTarget.classList.add('active');
+
+      var target = document.getElementById('paperRender');
+      if (target) {
+        target.innerHTML = berkas[nama] || '<div style="padding:40px; text-align:center; color:#64748b;">Memuat dokumen...</div>';
+      }
+    }
+
+    function toggleEdit() {
+      var paper = document.getElementById('paperRender');
+      var btn = document.getElementById('btnEdit');
+      sedangEdit = !sedangEdit;
+      paper.contentEditable = sedangEdit;
+      if (sedangEdit) {
+        paper.classList.add('editing');
+        btn.innerHTML = '✔️ Selesai Edit';
+      } else {
+        paper.classList.remove('editing');
+        btn.innerHTML = '✏️ Edit Teks';
+        if (tabAktif !== 'semua') berkas[tabAktif] = paper.innerHTML;
+      }
+    }
+
+    function eksporWord() {
+      var konten = document.getElementById('paperRender').innerHTML;
+      var mapel = (document.getElementById('mapel').value || 'PPKn').replace(/[^a-zA-Z0-9]/g, '_');
+      var namaFile = 'Perangkat_KBC_' + tabAktif.toUpperCase() + '_' + mapel + '.doc';
+
+      var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+        '<head><meta charset="utf-8"><title>' + namaFile + '</title>' +
+        '<style>' +
+          'body { font-family: "Times New Roman", serif; font-size: 11pt; line-height: 1.35; }' +
+          'table { width: 100%; border-collapse: collapse; margin-bottom: 12pt; }' +
+          'th, td { border: 1pt solid #000; padding: 5pt 7pt; font-size: 10pt; vertical-align: top; }' +
+          '.meta-table td, .ttd-box td { border: none !important; }' +
+          '.kop-header { display: flex; align-items: center; border-bottom: 2pt solid #000; padding-bottom: 10pt; margin-bottom: 12pt; }' +
+          '.kop-logo { width: 65pt; height: 65pt; margin-right: 15pt; }' +
+          '.doc-title { text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 4pt; }' +
+          '.doc-subtitle { text-align: center; font-weight: bold; font-size: 10.5pt; margin-bottom: 16pt; }' +
+          '.section-head { font-weight: bold; font-size: 11pt; margin-top: 14pt; margin-bottom: 6pt; }' +
+          '.stifin-card { border: 1pt solid #000; padding: 8pt; margin-bottom: 8pt; }' +
+        '</style></head><body>' + konten + '</body></html>';
+
+      var blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = namaFile;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    if (logoBase64) {
+      document.getElementById('btnHapusLogo').style.display = 'inline-block';
+    }
+
+    susunStandarLengkap(ambilData());
+  </script>
+</body>
+</html>
